@@ -1,0 +1,70 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.hero {
+  max-height: calc(100vh - 190px); /* Ajusta el valor 100px según el tamaño total de tu Navbar y Footer */
+  overflow-y: auto; /* Añadir barra de desplazamiento vertical cuando sea necesario */
+}
+
+footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+/* Estilos adicionales para el scrollbar, si es necesario */
+.hero::-webkit-scrollbar {
+  width: 8px;
+}
+
+.hero::-webkit-scrollbar-thumb {
+  background-color: #1976D2;
+}
+
+.hero::-webkit-scrollbar-track {
+  background-color: #F0F0F0;
+}
+
+
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
+
+.brand-style {
+    font-weight: 500;          /* Hace el texto más grueso */
+    font-size: 1.3em;         /* Aumenta el tamaño del texto */
+    letter-spacing: 1px;      /* Espaciado entre letras */
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white; /* Establece el color del texto a blanco */
+  cursor: pointer; /* Cambia el cursor a puntero al pasar sobre el contenedor */
+  transition: transform 0.2s;
+}
+
+.icon-container:hover, .icon-container-navbar:hover {
+  transform: scale(1.05); /* Al hacer hover, el contenedor se escala ligeramente para dar un efecto de "zoom" */
+}
+
+.hero-card:hover {
+  transform: scale(1.01);
+}
+
+.hero-card {
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.icon-label {
+  margin-top: 5px; /* Añade espacio entre el ícono y su etiqueta */
+}
