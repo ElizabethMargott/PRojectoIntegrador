@@ -2,11 +2,11 @@ import { useForm } from "react-hook-form";
 import { login } from "../api/auth.api";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+// import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
-const clientId = "874829985624-oe9hg2g1gq7bckjemdpobjff96iuubja.apps.googleusercontent.com";
+// const clientId = "874829985624-oe9hg2g1gq7bckjemdpobjff96iuubja.apps.googleusercontent.com";
 
 export function LoginPage() {
   const {
@@ -15,7 +15,7 @@ export function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
@@ -29,7 +29,7 @@ export function LoginPage() {
         }
       });
 
-      navigate("/notes"); // Redirige al usuario a la página principal
+      window.location.reload(); // Redirige al usuario a la página principal
     } catch (error) {
       console.error('Error de inicio de sesión:', error);
 
@@ -71,47 +71,45 @@ export function LoginPage() {
         </Button>
       </Form>
 
-      <GoogleOAuthProvider clientId={clientId}>
+      {/* <GoogleOAuthProvider clientId={clientId}>
         <div className="App">
           <LoginButton />
           <LogoutButton />
         </div>
-      </GoogleOAuthProvider>
+      </GoogleOAuthProvider> */}
 
     </div>
   );
 
-  function LoginButton() {
-    const onSuccess = (credentialResponse) => {
-      console.log("LOGIN SUCCESS! Current user: ", credentialResponse);
-    }
+  // function LoginButton() {
+  //   const onSuccess = (credentialResponse) => {
+  //     console.log("LOGIN SUCCESS! Current user: ", credentialResponse);
+  //   }
   
-    const onError = () => {
-      console.log('Login Failed');
-    }
+  //   const onError = () => {
+  //     console.log('Login Failed');
+  //   }
   
-    return (
-      <GoogleLogin
-        onSuccess={onSuccess}
-        onError={onError}
-        auto_select
-      />
-    );
-  }
+  //   return (
+  //     <GoogleLogin
+  //       onSuccess={onSuccess}
+  //       onError={onError}
+  //       auto_select
+  //     />
+  //   );
+  // }
   
-  function LogoutButton() {
-    const onLogoutSuccess = () => {
-      console.log('Logged out Success');
-      // Aquí es donde eliminarías el token de acceso de Google
-      // Por ejemplo, si estás guardando el token en el localStorage, podrías hacer algo como esto:
-      localStorage.removeItem('google_access_token');
-    }
+  // function LogoutButton() {
+  //   const onLogoutSuccess = () => {
+  //     console.log('Logged out Success');
+  //     localStorage.removeItem('google_access_token');
+  //   }
 
-    return (
-      <button onClick={onLogoutSuccess}>
-        Logout
-      </button>
-    );
-  }
+  //   return (
+  //     <button onClick={onLogoutSuccess}>
+  //       Logout
+  //     </button>
+  //   );
+  // }
 
 }

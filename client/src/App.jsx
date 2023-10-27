@@ -43,27 +43,50 @@ RedirectTo.propTypes = {
 function App() {
   return (
     <>
-      {/* Header */}
-      <Navbar />
+      {/* Header (Navbar) */}
+      {isAuthenticated() && <Navbar />}
 
       {/* Routes */}
       <BrowserRouter>
         <Routes>
-          <Route path="/notes" element={<PrivateRoute element={<NotesPage />} fallbackPath="/login" />} />
-          <Route path="/notes-create" element={<PrivateRoute element={<NoteFormPage />} fallbackPath="/login" />} />
-          <Route path="/notes-update" element={<PrivateRoute element={<NoteFormPage />} fallbackPath="/login" />} />
-          <Route path="/notes-delete" element={<PrivateRoute element={<NoteFormPage />} fallbackPath="/login" />} />
-          <Route path="/login" element={<PublicRoute element={<LoginPage />} fallbackPath="/notes" />} />
-          <Route path="/register" element={<PublicRoute element={<RegisterPage />} fallbackPath="/notes" />} />
-          <Route path="/logout" element={<LogoutButton />} />
-          <Route path="*" element={<RedirectTo path={isAuthenticated() ? "/notes" : "/login"} />} />
+          <Route
+            path="/notes"
+            element={<PrivateRoute element={<NotesPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/notes-create"
+            element={<PrivateRoute element={<NoteFormPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/notes-update"
+            element={<PrivateRoute element={<NoteFormPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/notes-delete"
+            element={<PrivateRoute element={<NoteFormPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/login"
+            element={<PublicRoute element={<LoginPage />} fallbackPath="/notes" />}
+          />
+          <Route
+            path="/register"
+            element={<PublicRoute element={<RegisterPage />} fallbackPath="/notes" />}
+          />
+          <Route
+            path="/logout"
+            element={isAuthenticated() ? <LogoutButton /> : <Navigate to="/login" replace={true} />}
+          />
+          <Route
+            path="*"
+            element={<RedirectTo path={isAuthenticated() ? "/notes" : "/login"} />}
+          />
         </Routes>
         <Toaster />
       </BrowserRouter>
 
       {/* Footer */}
-      <Footer />
-
+      {isAuthenticated() && <Footer />}
     </>
   );
 }

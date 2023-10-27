@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { register } from "../api/auth.api";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 export function RegisterPage() {
@@ -12,7 +12,7 @@ export function RegisterPage() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -24,7 +24,7 @@ export function RegisterPage() {
           color: "#fff"
         }
       });
-      navigate("/login");
+      window.location.reload();
     } catch (error) {
       toast.error("Error al registrar", {
         position: "bottom-right",
