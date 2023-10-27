@@ -35,3 +35,15 @@ export const createNote = async (note) => {
         throw error;
     }
 };
+
+export const deleteNote = async (noteId) => {
+    try {
+        await axios.delete(`${BASE_URL}/notes/${noteId}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`, // Usar el token JWT como "Bearer token"
+            }
+        });
+    } catch (error) {
+        throw error;
+    }
+};
