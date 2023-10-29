@@ -1,16 +1,13 @@
 package com.sxm.demo.controllers;
 
 import com.sxm.demo.models.NoteModel;
+import com.sxm.demo.models.UserModel;
 import com.sxm.demo.services.NoteService;
-
+import com.sxm.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,9 +17,11 @@ public class NoteController {
 
     @Autowired
     private final NoteService noteService;
+    private final UserService userService;
 
-    public NoteController(NoteService noteService) {
+    public NoteController(NoteService noteService, UserService userService) {
         this.noteService = noteService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -30,25 +29,28 @@ public class NoteController {
         return ResponseEntity.ok(noteService.getNotes());
     }
 
+    @GetMapping("/current")
+    public ResponseEntity<List<NoteModel>> getNotesByCurrentUser() {
+        UserModel currentUser = userService.getCurrentUser();
+        
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
+        List<NoteModel> notes = noteService.getNotesByUser(currentUser);
+        return ResponseEntity.ok(notes);
+    }
+
     @PostMapping
     public ResponseEntity<NoteModel> saveNote(@RequestBody @Valid NoteModel note) {
 
-        String username = getCurrentUsername();
+        UserModel currentUser = userService.getCurrentUser();
 
-        if (username == null) {
-            // Maneja el caso en el que no se pudo obtener el nombre de usuario
+        if (currentUser == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.ok(noteService.saveNote(note, username));
-    }
-
-    private String getCurrentUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            return ((UserDetails) authentication.getPrincipal()).getUsername();
-        }
-        return null;
+        return ResponseEntity.ok(noteService.saveNote(note, currentUser));
     }
 
     @GetMapping("/{id}")
@@ -59,8 +61,8 @@ public class NoteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<NoteModel> updateNoteById(@RequestBody @Valid NoteModel request, @PathVariable Long id){
-        return ResponseEntity.ok(noteService.updateById(request, id));
+    public ResponseEntity<NoteModel> updateNoteById(@RequestBody @Valid NoteModel updatedNote, @PathVariable Long id){
+        return ResponseEntity.ok(noteService.updateById(updatedNote, id));
     }
 
     @DeleteMapping("/{id}")

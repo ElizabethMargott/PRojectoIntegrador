@@ -8,13 +8,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sxm.demo.user.Role;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -51,12 +50,9 @@ public class UserModel implements UserDetails {
     // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     // private List<NoteModel> notes;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Builder.Default
-	private Set<NoteModel> notes = new HashSet<>();
-
-
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<NoteModel> notes;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

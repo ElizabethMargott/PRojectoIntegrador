@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -32,7 +34,7 @@ public class NoteModel {
     private LocalDateTime modificationDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private UserModel user;
-
 }

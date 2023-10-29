@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000'; // Asume que tu API Spring Boot corre en el puerto 8080. Ajusta la URL si es diferente.
+const BASE_URL = 'http://localhost:8080'; // Asume que tu API Spring Boot corre en el puerto 8080. Ajusta la URL si es diferente.
 
 // Función para iniciar sesión y obtener un token JWT
 export const login = async (username, password) => {

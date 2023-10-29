@@ -1,15 +1,19 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavbarComponent as Navbar } from "./components/NavbarComponent";
 import { FooterComponent as Footer } from "./components/FooterComponent";
-import { LoginPage } from "./pages/LoginPage";
-import { RegisterPage } from "./pages/RegisterPage";
-import { NotesPage } from "./pages/NotesPage";
-import { NoteFormPage } from "./pages/NoteFormPage";
+import { LoginPage } from "./pages/Auth/LoginPage";
+import { RegisterPage } from "./pages/Auth/RegisterPage";
+import { NotesPage } from "./pages/Notes/NotesPage";
+import { NoteFormPage } from "./pages/Notes/NoteFormPage";
+import { ListsPage } from "./pages/Lists/ListsPage";
+import { KanbanPage } from "./pages/Kanban/KanbanPage";
+import { CalendarPage } from "./pages/Calendar/CalendarPage";
+import { HabitsPage } from "./pages/Habits/HabitsPage";
+import { ProfilePage } from "./pages/User/ProfilePage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Toaster } from "react-hot-toast";
 import PropTypes from 'prop-types';
 import "./App.css";
-import { LogoutButton } from './components/LogoutButtonComponent';
 
 const isAuthenticated = () => {
   const token = localStorage.getItem("token");
@@ -43,11 +47,11 @@ RedirectTo.propTypes = {
 function App() {
   return (
     <>
-      {/* Header (Navbar) */}
-      {isAuthenticated() && <Navbar />}
 
       {/* Routes */}
       <BrowserRouter>
+        {/* Header (Navbar) */}
+        {isAuthenticated() && <Navbar />}
         <Routes>
           <Route
             path="/notes"
@@ -58,12 +62,68 @@ function App() {
             element={<PrivateRoute element={<NoteFormPage />} fallbackPath="/login" />}
           />
           <Route
-            path="/notes-update"
+            path="/notes/:id"
             element={<PrivateRoute element={<NoteFormPage />} fallbackPath="/login" />}
           />
           <Route
             path="/notes-delete"
             element={<PrivateRoute element={<NoteFormPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/lists"
+            element={<PrivateRoute element={<ListsPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/lists-create"
+            element={<PrivateRoute element={<ListsPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/lists-update"
+            element={<PrivateRoute element={<ListsPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/lists-delete"
+            element={<PrivateRoute element={<ListsPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/kanban"
+            element={<PrivateRoute element={<KanbanPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/kanban-create"
+            element={<PrivateRoute element={<KanbanPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/kanban-update"
+            element={<PrivateRoute element={<KanbanPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/kanban-delete"
+            element={<PrivateRoute element={<KanbanPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/calendar"
+            element={<PrivateRoute element={<CalendarPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/habits"
+            element={<PrivateRoute element={<HabitsPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/habits-create"
+            element={<PrivateRoute element={<HabitsPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/habits-update"
+            element={<PrivateRoute element={<HabitsPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/habits-delete"
+            element={<PrivateRoute element={<HabitsPage />} fallbackPath="/login" />}
+          />
+          <Route
+            path="/profile"
+            element={<PrivateRoute element={<ProfilePage />} fallbackPath="/login" />}
           />
           <Route
             path="/login"
@@ -75,7 +135,7 @@ function App() {
           />
           <Route
             path="/logout"
-            element={isAuthenticated() ? <LogoutButton /> : <Navigate to="/login" replace={true} />}
+            element={isAuthenticated() ? <ProfilePage /> : <Navigate to="/login" replace={true} />}
           />
           <Route
             path="*"
@@ -83,10 +143,10 @@ function App() {
           />
         </Routes>
         <Toaster />
-      </BrowserRouter>
 
-      {/* Footer */}
-      {isAuthenticated() && <Footer />}
+        {/* Footer */}
+        {isAuthenticated() && <Footer />}
+      </BrowserRouter>
     </>
   );
 }

@@ -1,22 +1,23 @@
+import { useState, useEffect } from 'react';
+import { getAvatarUrl } from '../api/users.api';  // Asegúrate de actualizar la ruta a tu archivo api.js
 import { Avatar } from "@mui/material";
 import {
   Search as SearchIcon,
   ViewModule as ViewModuleIcon,
 } from "@mui/icons-material";
 import { Navbar, Nav } from "react-bootstrap";
-// import { getUsernameFromToken } from '../api/users.api'
-// import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export function NavbarComponent() {
+  const [avatarUrl, setAvatarUrl] = useState(null);
 
-  // const [username, setUsername] = useState(null);
-
-  // useEffect(() => {
-    // Obtener el nombre de usuario cuando el componente se monta
-  //   const authToken = localStorage.getItem('token');
-  //   const user = getUsernameFromToken(authToken);
-  //   setUsername(user);
-  // }, []);
+  useEffect(() => {
+    const fetchAvatarUrl = async () => {
+      const url = await getAvatarUrl();
+      setAvatarUrl(url);
+    };
+    fetchAvatarUrl();
+  }, []);
 
   return (
     <Navbar
@@ -26,7 +27,8 @@ export function NavbarComponent() {
     >
       <div style={{ flex: 1, display: "flex", alignItems: "center" }}>
         <Navbar.Brand
-          href="/notes"
+          as={Link}
+          to="/notes"
           className="brand-style"
           style={{ marginLeft: "20px" }}
         >
@@ -34,32 +36,20 @@ export function NavbarComponent() {
         </Navbar.Brand>
       </div>
       <Nav className="align-center">
-        <Nav.Link className="icon-container-navbar" href="/">
+        <Nav.Link as={Link} className="icon-container-navbar" to="#"> 
           <ViewModuleIcon fontSize="large" />
         </Nav.Link>
-        <Nav.Link className="icon-container-navbar" href="/">
+        <Nav.Link as={Link} className="icon-container-navbar" to="#"> 
           <SearchIcon fontSize="large" />
         </Nav.Link>
-        <Nav.Link href="/">
+        <Nav.Link as={Link} to="/profile">
           <Avatar
-            alt="Remy Sharp"
-            src="/public/images/1.jpg"
+            alt="User Avatar"
+            src={avatarUrl}
             style={{ marginRight: "10px" }}
           />
         </Nav.Link>
-        
-        {/* {username && (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <span style={{ marginRight: "10px" }}>{username}</span>
-            <Avatar
-              alt="User Avatar"
-              src="http://localhost:3000/api/v1/users/admin/avatar"
-              style={{ marginRight: "10px" }}
-            />
-          </div>
-        )} */}
-
       </Nav>
     </Navbar>
-  )
+  );
 }
